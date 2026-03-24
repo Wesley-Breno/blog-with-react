@@ -5,6 +5,7 @@ import { Container } from "./components/Container";
 import { Header } from "./components/Header";
 import Link from "next/link";
 import Image from "next/image";
+import { PostHeading } from "./components/PostHeading";
 
 export default async function HomePage() {
   return (
@@ -26,9 +27,9 @@ export default async function HomePage() {
           <div className="flex flex-col gap-4 sm:justify-center">
             <time dateTime="2024-06-12" className="text-slate-600 block text-sm/tight">20/06/2024 10:00</time>
 
-            <h1 className="text-2xl/tight font-extrabold sm:text-4xl">
-              <Link href="#">Titulo do Post</Link>
-            </h1>
+            <PostHeading url="#" as="h1">
+              asasdads asdasd ass sadasdasd
+            </PostHeading>
 
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque,
