@@ -13,7 +13,7 @@ export default async function HomePage() {
         <Header />
 
         <section className="grid grid-cols-1 gap-8 mb-16 sm:grid-cols-2 group">
-          <PostCoverImage src="/images/bryen_9.png" alt="Titulo do post" url="#" />
+          <PostCoverImage src="/images/bryen_9.png" alt="Titulo do post" url="#" width={1200} height={720} />
 
           <div className="flex flex-col gap-4 sm:justify-center">
             <time dateTime="2024-06-12" className="text-slate-600 block text-sm/tight">20/06/2024 10:00</time>

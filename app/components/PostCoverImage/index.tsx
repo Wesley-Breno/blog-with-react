@@ -5,16 +5,18 @@ type PostCoverImageProps = {
     src: string;
     alt: string;
     url: string;
+    width: number;
+    height: number;
 }
 
-export function PostCoverImage({ src, alt, url }: PostCoverImageProps) {
+export function PostCoverImage({ src, alt, url, width, height }: PostCoverImageProps) {
     return (
         <Link href={url} className="w-full h-full overflow-hidden rounded-xl">
             <Image
                 src={src}
                 alt={alt}
-                width={1200}
-                height={720}
+                width={width}
+                height={height}
                 className="w-full h-full object-cover object-center group-hover:scale-105 transition"
                 priority
             />
