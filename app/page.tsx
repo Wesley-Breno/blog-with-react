@@ -19,14 +19,23 @@ export default async function HomePage() {
               alt="Titulo do post"
               width={1200}
               height={720}
-              className="group-hover:scale-105 transition"
+              className="w-full h-full object-cover object-center group-hover:scale-105 transition"
+              priority
             />
           </Link>
-          <div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque,
-            omnis, nulla rem porro error debitis similique, hic fugiat quis
-            quaerat suscipit optio soluta perferendis corrupti a quo.
-            Reiciendis, dignissimos maiores?
+          <div className="flex flex-col gap-4 sm:justify-center">
+            <time dateTime="2024-06-12" className="text-slate-600 block text-sm/tight">20/06/2024 10:00</time>
+
+            <h1 className="text-2xl/tight font-extrabold sm:text-4xl">
+              <Link href="#">Titulo do Post</Link>
+            </h1>
+
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque,
+              omnis, nulla rem porro error debitis similique, hic fugiat quis
+              quaerat suscipit optio soluta perferendis corrupti a quo.
+              Reiciendis, dignissimos maiores?
+            </p>
           </div>
         </section>
 
