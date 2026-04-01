@@ -9,8 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "better-sqlite3": "^12.8.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "drizzle-orm": "^0.45.2",
     "next": "16.2.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
@@ -21,9 +23,11 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.19",
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.18.1",
     "eslint": "^10.1.0",
     "eslint-config-next": "^0.2.4",
     "tailwindcss": "^4",
