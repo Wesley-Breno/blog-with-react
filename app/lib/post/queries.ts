@@ -7,6 +7,7 @@ export const findAllPublicPostsCached = cache(async () =>
 
 export const findPostBySlugCached = cache(async (slug: string) => {
     const post = await postRepository.findBySlugPublic(slug).catch(() => undefined);
+    
     if (!post) notFound();
     
     return post;
