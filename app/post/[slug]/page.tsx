@@ -7,6 +7,8 @@ import {
 import { Metadata } from "next";
 import { Suspense } from "react";
 
+export const dynamic = 'force-static';
+
 type PostSlugPageProps = {
   params: Promise<{ slug: string }>;
 };
@@ -25,7 +27,7 @@ export async function generateMetadata({
 
 export async function generateStaticParams() {
   const posts = await findAllPublicPostsCached();
-  const params = posts.map((post) => ({
+  const params = posts.map((post: { slug: string }) => ({
     slug: post.slug,
   }));
 
