@@ -3,6 +3,7 @@ import { postsTable } from "@/app/db/drizzle/schemas";
 import { PostModel } from "@/app/models/post/post-model";
 import { PostRepository } from "@/app/repositories/post/post-repository";
 import { desc, eq } from "drizzle-orm";
+import { revalidateTag } from "next/cache";
 
 
 export class DrizzlePostRepository implements PostRepository {
@@ -41,6 +42,20 @@ export class DrizzlePostRepository implements PostRepository {
         if (!post) throw new Error(`Post with id ${id} not found`);
 
         return post;
+    }
+
+    async deleteById(id: string) {
+        const post = await drizzleDb.query.posts.findFirst({
+            where: (posts, {eq}) => eq(posts.id, id)
+        });
+
+        if (!post) throw new Error(`Post with id ${id} not found`);
+
+        await drizzleDb.delete(postsTable).where(eq(postsTable.id, id));
+
+        revalidateTag('posts', {});
+        revalidateTag(`post-${post.slug}`, {});
+        
     }
 }
 

@@ -2,9 +2,19 @@ import { findAllPostsAdmin } from "@/app/lib/post/queries/admin";
 import clsx from "clsx";
 import Link from "next/link";
 import { DeletePostButton } from "../admin/DeletePostButton";
+import ErrorMessage from "../ErrorMessage";
 
 export default async function PostListAdmin() {
   const posts = await findAllPostsAdmin();
+
+  if (posts.length <= 0) {
+    return (
+      <ErrorMessage
+        contentTitle="Ops!"
+        content="Você ainda não criou nenhum post."
+      />
+    );
+  }
 
   return (
     <div className="mb-16">
@@ -21,7 +31,7 @@ export default async function PostListAdmin() {
             <Link href={`/admin/post/${post.id}`}>{post.title}</Link>
             {!post.published && (
               <span className="text-xs text-slate-600 italic">
-                (Nao Publicado)
+                (Não Publicado)
               </span>
             )}
 
