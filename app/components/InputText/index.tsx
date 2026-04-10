@@ -17,7 +17,6 @@ export function InputText({ labelText = "", ...props }: InputTextProps) {
       )}
       <input
         {...props}
-
         className={clsx(
           "bg-white outline-none border border-gray-300 rounded-md p-2",
           "transition focus:ring-blue-500 focus:ring-1 focus:border-blue-500",
@@ -25,7 +24,7 @@ export function InputText({ labelText = "", ...props }: InputTextProps) {
           "disabled:placeholder-gray-400",
           "placeholder-slate-300",
           "read-only:bg-gray-700 read-only:border-gray-400 read-only:opacity-70",
-          
+
           props.className,
         )}
         id={id}
