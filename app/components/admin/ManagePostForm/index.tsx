@@ -1,10 +1,14 @@
 "use client";
 
+import React from "react";
 import { Button } from "../../button";
 import { InputCheckbox } from "../../InputCheckbox";
 import { InputText } from "../../InputText";
+import { MarkdownEditor } from "../../MarkdownEditor";
 
 export function ManagePostForm() {
+  const [contentValue, setContentValue] = React.useState("Este é um exemplo de conteúdo em Markdown.");
+
   return (
     <form action="" className="mb-16">
       <div className="flex flex-col gap-6">
@@ -23,6 +27,16 @@ export function ManagePostForm() {
           placeholder="Digite seu sobrenome"
           defaultValue="Olá mundo"
         />
+
+        <MarkdownEditor
+          disabled={false}
+          labelText="Conteúdo"
+          textAreaName="content"
+          value={contentValue}
+          setValue={setContentValue}
+        />
+
+
         <InputText
           disabled
           labelText="Sobrenome"
