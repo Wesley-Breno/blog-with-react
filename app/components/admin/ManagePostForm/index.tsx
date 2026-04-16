@@ -5,6 +5,7 @@ import { Button } from "../../button";
 import { InputCheckbox } from "../../InputCheckbox";
 import { InputText } from "../../InputText";
 import { MarkdownEditor } from "../../MarkdownEditor";
+import { ImageUploader } from "../ImageUploader";
 
 export function ManagePostForm() {
   const [contentValue, setContentValue] = React.useState("Este é um exemplo de conteúdo em Markdown.");
@@ -17,6 +18,9 @@ export function ManagePostForm() {
           placeholder="Digite seu nome"
           type="password"
         />
+
+        <ImageUploader/>
+
         <InputText labelText="Sobrenome" placeholder="Digite seu sobrenome" />
 
         <InputCheckbox labelText="Sobrenome" />
