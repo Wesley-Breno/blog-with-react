@@ -5,8 +5,7 @@ import { Button } from "../../button";
 import { useRef, useTransition } from "react";
 import { toast } from "react-toastify";
 import { uploadImageAction } from "@/app/actions/upload/upload-image-action";
-
-const IMAGE_UPLOAD_MAX_SIZE = 921600; // 900KB
+import { IMAGE_UPLOAD_MAX_SIZE } from "@/app/constants";
 
 export function ImageUploader() {
   const fileInputRef = useRef<HTMLInputElement>(null);
