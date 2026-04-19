@@ -8,6 +8,7 @@ import { MarkdownEditor } from "../../MarkdownEditor";
 import { ImageUploader } from "../ImageUploader";
 import { makePartialPublicPost, PublicPost } from "@/app/dto/post/dto";
 import { createPostAction } from "@/app/actions/post/create-post-action";
+import { toast } from "react-toastify";
 
 type ManagePostFormProps = {
   publicPost?: PublicPost;
@@ -23,6 +24,15 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
     createPostAction,
     initialState,
   );
+
+  useEffect(() => {
+    if (state.errors.length > 0) {
+      toast.dismiss();
+      state.errors.forEach((error) => {
+        toast.error(error);
+      });
+    }
+  }, [state.errors]);
 
   const { formState } = state;
   const [contentValue, setContentValue] = useState(publicPost?.content || "");
