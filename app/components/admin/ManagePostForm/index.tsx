@@ -1,24 +1,38 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import { Button } from "../../button";
 import { InputCheckbox } from "../../InputCheckbox";
 import { InputText } from "../../InputText";
 import { MarkdownEditor } from "../../MarkdownEditor";
 import { ImageUploader } from "../ImageUploader";
 import { PublicPost } from "@/app/dto/post/dto";
+import { createPostAction } from "@/app/actions/post/create-post-action";
 
 type ManagePostFormProps = {
   publicPost?: PublicPost;
 };
 
 export function ManagePostForm({ publicPost }: ManagePostFormProps) {
-  const [contentValue, setContentValue] = useState(publicPost?.content || "Escreva o conteúdo do post aqui...");
+  const [contentValue, setContentValue] = useState(
+    publicPost?.content || "Escreva o conteúdo do post aqui...",
+  );
+
+  const initialState = {
+    numero: 0,
+  };
+  const [state, action, isPending] = useActionState(
+    createPostAction,
+    initialState,
+  );
+
+  useEffect(() => {
+    
+  }, [state.numero])
 
   return (
     <form action="" className="mb-16">
       <div className="flex flex-col gap-6">
-
         <InputText
           labelText="ID"
           name="ID"
@@ -45,7 +59,6 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           defaultValue={publicPost?.author || ""}
         />
 
-
         <InputText
           labelText="Título"
           name="title"
@@ -62,7 +75,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           defaultValue={publicPost?.excerpt || ""}
         />
 
-        <MarkdownEditor 
+        <MarkdownEditor
           labelText="Conteúdo"
           value={contentValue}
           setValue={setContentValue}
@@ -80,7 +93,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
           defaultValue={publicPost?.coverImageUrl || ""}
         />
 
-        <InputCheckbox 
+        <InputCheckbox
           labelText="Publicar?"
           name="published"
           type="checkbox"
