@@ -2,6 +2,7 @@
 
 import { makePartialPublicPost, PublicPost } from "@/app/dto/post/dto"
 import { PostCreateSchema } from "@/app/lib/post/validation";
+import { PostModel } from "@/app/models/post/post-model";
 import { getZodErrorMessages } from "@/app/utils/get-zod-error-messages";
 
 type CreatePostActionState = {
