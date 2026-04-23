@@ -1,25 +1,32 @@
 'use server';
 
-import { postRepository } from "@/app/repositories/post";
+import { postRepository } from '@/app/repositories/post';
 
 export async function deletePostAction(id: string) {
-    if (!id || typeof id !== 'string') {
-        return {
-            error: 'ID do post é obrigatório e deve ser uma string.',
-        }
-    }
+  // TODO: checar login do usuário
 
-    const post = await postRepository.findById(id).catch(() => undefined);
+  if (!id || typeof id !== 'string') {
+    return {
+      error: 'Dados inválidos',
+    };
+  }
 
-    if (!post) {
-        return {
-            error: 'Post não encontrado.',
-        };
+  let post;
+  try {
+    post = await postRepository.delete(id);
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      return {
+        error: e.message,
+      };
     }
-    
-    postRepository.deleteById(id)
 
     return {
-        error: '',
+      error: 'Erro desconhecido',
     };
+  }
+
+  return {
+    error: '',
+  };
 }
