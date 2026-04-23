@@ -1,10 +1,13 @@
 'use server'
 
+import { drizzleDb } from "@/app/db/drizzle";
+import { postsTable } from "@/app/db/drizzle/schemas";
 import { makePartialPublicPost, PublicPost } from "@/app/dto/post/dto"
 import { PostCreateSchema } from "@/app/lib/post/validation";
 import { PostModel } from "@/app/models/post/post-model";
 import { getZodErrorMessages } from "@/app/utils/get-zod-error-messages";
 import { makeSlugFromText } from "@/app/utils/make-slug-from-text";
+import { redirect } from "next/navigation";
 import { v4 as uuidv4 } from 'uuid'
 
 type CreatePostActionState = {
@@ -45,8 +48,7 @@ export async function createPostAction(
         slug: makeSlugFromText(validPostData.title),
     }
 
-    return {
-        formState: newPost,
-        errors: [],
-    }
+    // TODO: mover este metodo para o repositorio
+    await drizzleDb.insert(postsTable).values(newPost);
+    redirect(`/admin/post/${newPost.id}`)
 }
