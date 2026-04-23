@@ -1,21 +1,23 @@
-"use client";
+'use client';
 
-import { ImageUpIcon } from "lucide-react";
-import { Button } from "../../button";
-import { useRef, useState, useTransition } from "react";
-import { toast } from "react-toastify";
-import { uploadImageAction } from "@/app/actions/upload/upload-image-action";
-import { IMAGE_UPLOAD_MAX_SIZE } from "@/app/constants";
+import { uploadImageAction } from '@/app/actions/upload/upload-image-action';
+import { Button } from '@/app/components/button';
+import { IMAGE_UPLOAD_MAX_SIZE } from '@/app/constants';
+import { ImageUpIcon } from 'lucide-react';
+import { useRef, useState, useTransition } from 'react';
+import { toast } from 'react-toastify';
 
-export function ImageUploader() {
+type ImageUploaderProps = {
+  disabled?: boolean;
+};
+
+export function ImageUploader({ disabled = false }: ImageUploaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [isUploading, startTrasition] = useTransition();
-  const [imgURL, setImgURL] = useState("");
+  const [isUploading, startTransition] = useTransition();
+  const [imgUrl, setImgUrl] = useState('');
 
   function handleChooseFile() {
-    if (!fileInputRef.current) {
-      return;
-    }
+    if (!fileInputRef.current) return;
 
     fileInputRef.current.click();
   }
@@ -24,78 +26,78 @@ export function ImageUploader() {
     toast.dismiss();
 
     if (!fileInputRef.current) {
-      setImgURL("");
+      setImgUrl('');
       return;
     }
 
     const fileInput = fileInputRef.current;
-    const file = fileInput.files?.[0];
+    const file = fileInput?.files?.[0];
 
     if (!file) {
-      setImgURL("");
+      setImgUrl('');
       return;
     }
 
     if (file.size > IMAGE_UPLOAD_MAX_SIZE) {
-      const readableSize = (IMAGE_UPLOAD_MAX_SIZE / 1024).toFixed(2);
-      toast.error(`A imagem deve ser menor que ${readableSize}KB.`);
+      const readableMaxSize = IMAGE_UPLOAD_MAX_SIZE / 1024;
+      toast.error(`Imagem muito grande. Máx.: ${readableMaxSize}KB.`);
 
-      fileInput.value = "";
-      setImgURL("");
+      fileInput.value = '';
+      setImgUrl('');
       return;
     }
 
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append('file', file);
 
-    startTrasition(async () => {
+    startTransition(async () => {
       const result = await uploadImageAction(formData);
 
       if (result.error) {
         toast.error(result.error);
-        fileInput.value = "";
-        setImgURL("");
+        fileInput.value = '';
+        setImgUrl('');
         return;
       }
 
-      setImgURL(result.url);
-      toast.success("Imagem enviada com sucesso!");
+      setImgUrl(result.url);
+      toast.success('Imagem enviada');
     });
 
-    fileInput.value = "";
+    fileInput.value = '';
   }
 
   return (
-    <div className="flex flex-col gap-4 py-4">
+    <div className='flex flex-col gap-4 py-4'>
       <Button
-        type="button"
-        className="self-start"
         onClick={handleChooseFile}
-        disabled={isUploading}
+        type='button'
+        className='self-start'
+        disabled={isUploading || disabled}
       >
         <ImageUpIcon />
         Enviar uma imagem
       </Button>
 
-      {!!imgURL && (
-        <div className="flex flex-col gap-4">
+      {!!imgUrl && (
+        <div className='flex flex-col gap-4'>
           <p>
-            <b>URL: </b> {imgURL}
+            <b>URL:</b> {imgUrl}
           </p>
 
           {/* eslint-disable-next-line */}
-          <img className="rounded-lg" src={imgURL} />
+          <img className='rounded-lg' src={imgUrl} />
         </div>
       )}
 
       <input
         onChange={handleChange}
         ref={fileInputRef}
-        className="hidden"
-        type="file"
-        name="file"
-        accept="image/*"
-        disabled={isUploading}
+        className='hidden'
+        name='file'
+        type='file'
+        accept='image/*'
+        disabled={isUploading || disabled}
       />
     </div>
   );
