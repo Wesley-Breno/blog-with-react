@@ -1,14 +1,20 @@
 'use server';
 
-import { makePartialPublicPost, makePublicPostFromDb, PublicPost } from '@/app/dto/post/dto';
+import {
+  makePartialPublicPost,
+  makePublicPostFromDb,
+  PublicPost,
+} from '@/app/dto/post/dto';
+import { PostUpdateSchema } from '@/app/lib/post/validation';
 import { postRepository } from '@/app/repositories/post';
 import { getZodErrorMessages } from '@/app/utils/get-zod-error-messages';
-import {PostUpdateSchema} from '@/app/lib/post/validation';
+import { makeRandomString } from '@/app/utils/make-random-string';
+import { revalidateTag } from 'next/cache';
 
 type UpdatePostActionState = {
   formState: PublicPost;
   errors: string[];
-  success?: true
+  success?: string;
 };
 
 export async function updatePostAction(
@@ -28,9 +34,9 @@ export async function updatePostAction(
 
   if (!id || typeof id !== 'string') {
     return {
-        formState: prevState.formState,
-        errors: ['Dados invalidos'],
-    }
+      formState: prevState.formState,
+      errors: ['ID inválido'],
+    };
   }
 
   const formDataToObj = Object.fromEntries(formData.entries());
@@ -48,7 +54,7 @@ export async function updatePostAction(
   const newPost = {
     ...validPostData,
   };
-  
+
   let post;
   try {
     post = await postRepository.update(id, newPost);
@@ -69,6 +75,6 @@ export async function updatePostAction(
   return {
     formState: makePublicPostFromDb(post),
     errors: [],
-    success: true,
-  }
+    success: makeRandomString(),
+  };
 }

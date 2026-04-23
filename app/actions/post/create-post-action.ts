@@ -1,18 +1,18 @@
 'use server';
 
 import { makePartialPublicPost, PublicPost } from '@/app/dto/post/dto';
+import { PostCreateSchema } from '@/app/lib/post/validation';
 import { PostModel } from '@/app/models/post/post-model';
 import { postRepository } from '@/app/repositories/post';
 import { getZodErrorMessages } from '@/app/utils/get-zod-error-messages';
 import { makeSlugFromText } from '@/app/utils/make-slug-from-text';
-import {PostCreateSchema} from '@/app/lib/post/validation';
 import { redirect } from 'next/navigation';
 import { v4 as uuidV4 } from 'uuid';
 
 type CreatePostActionState = {
   formState: PublicPost;
   errors: string[];
-  success?: true
+  success?: string;
 };
 
 export async function createPostAction(
@@ -64,5 +64,5 @@ export async function createPostAction(
     };
   }
 
-  redirect(`/admin/post/${newPost.id}`);
+  redirect(`/admin/post/${newPost.id}?created=1`);
 }
