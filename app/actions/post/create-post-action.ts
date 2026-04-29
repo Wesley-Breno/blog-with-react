@@ -20,7 +20,6 @@ export async function createPostAction(
   prevState: CreatePostActionState,
   formData: FormData,
 ): Promise<CreatePostActionState> {
-  // TODO: verificar se o usuário tá logado
 
   if (!(formData instanceof FormData)) {
     return {

@@ -3,7 +3,6 @@
 import { postRepository } from '@/app/repositories/post';
 
 export async function deletePostAction(id: string) {
-  // TODO: checar login do usuário
 
   if (!id || typeof id !== 'string') {
     return {
