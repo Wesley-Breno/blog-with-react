@@ -1,49 +1,61 @@
-'use server'
+'use server';
 
-import { IMAGE_SERVER_URL, IMAGE_UPLOAD_DIRECTORY, IMAGE_UPLOAD_MAX_SIZE } from "@/app/constants";
-import { mkdir, writeFile } from "fs/promises";
-import { extname, resolve } from "path";
+import {
+  IMAGE_SERVER_URL,
+  IMAGE_UPLOAD_DIRECTORY,
+  IMAGE_UPLOAD_MAX_SIZE,
+} from '@/app/constants';
+import { mkdir, writeFile } from 'fs/promises';
+import { extname, resolve } from 'path';
 
 type UploadImageActionResult = {
-    url: string,
-    error: string,
-}
+  url: string;
+  error: string;
+};
 
-export async function uploadImageAction(formData: FormData): Promise<UploadImageActionResult> {
-    const makeResult = ({url = '', error = ''}) => ({url, error});
+export async function uploadImageAction(
+  formData: FormData,
+): Promise<UploadImageActionResult> {
+  // TODO: Verificar se o usuário está logado
 
-    if (!(formData instanceof FormData)) {
-        return makeResult({error: 'Dados inválidos'});
-    }
+  const makeResult = ({ url = '', error = '' }) => ({ url, error });
 
-    const file = formData.get("file");
+  if (!(formData instanceof FormData)) {
+    return makeResult({ error: 'Dados inválidos' });
+  }
 
-    if (!file || !(file instanceof File)) {
-        return makeResult({error: 'Arquivo invalido'});
-    }
+  const file = formData.get('file');
 
-    if (file.size > IMAGE_UPLOAD_MAX_SIZE) {
-        return makeResult({error: `Arquivo muito grande.`});
-    }
+  if (!(file instanceof File)) {
+    return makeResult({ error: 'Arquivo inválido' });
+  }
 
-    if (!file.type.startsWith('image/')) {
-        return makeResult({error: 'Imagem invalida.'});
-    }
+  if (file.size > IMAGE_UPLOAD_MAX_SIZE) {
+    return makeResult({ error: 'Arquivo muito grande' });
+  }
 
-    const imageExtension = extname(file.name);
-    const uniqueImageName = `${Date.now()}${imageExtension}`;
+  if (!file.type.startsWith('image/')) {
+    return makeResult({ error: 'Imagem inválida' });
+  }
 
-    const uploadFullPath = resolve(process.cwd(), 'public', IMAGE_UPLOAD_DIRECTORY);
-    await mkdir(uploadFullPath, { recursive: true });
+  const imageExtension = extname(file.name);
+  const uniqueImageName = `${Date.now()}${imageExtension}`;
 
-    const fileArrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(fileArrayBuffer);
+  const uploadFullPath = resolve(
+    process.cwd(),
+    'public',
+    IMAGE_UPLOAD_DIRECTORY,
+  );
+  await mkdir(uploadFullPath, { recursive: true });
 
-    const fileFullPath = resolve(uploadFullPath, uniqueImageName);
-    
-    await writeFile(fileFullPath, buffer);
+  const fileArrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(fileArrayBuffer);
 
-    const url = `${IMAGE_SERVER_URL}/${uniqueImageName}`;
+  const fileFullPath = resolve(uploadFullPath, uniqueImageName);
 
-    return makeResult({ url });
+  await writeFile(fileFullPath, buffer);
+
+  const url = `${IMAGE_SERVER_URL}/${uniqueImageName}`;
+
+  return makeResult({ url });
 }

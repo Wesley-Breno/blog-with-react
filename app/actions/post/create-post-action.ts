@@ -6,6 +6,7 @@ import { PostModel } from '@/app/models/post/post-model';
 import { postRepository } from '@/app/repositories/post';
 import { getZodErrorMessages } from '@/app/utils/get-zod-error-messages';
 import { makeSlugFromText } from '@/app/utils/make-slug-from-text';
+import { revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { v4 as uuidV4 } from 'uuid';
 
