@@ -1,5 +1,7 @@
-export const dymic = 'force-dynamic';
+import { LoginForm } from "@/app/components/admin/LoginForm";
+
+export const dynamic = 'force-dynamic';
 
 export default async function AdminLoginPage() {
-    return <div className="py-16 text-6xl">Admin Login Page</div>;
+  return <LoginForm />;
 }
