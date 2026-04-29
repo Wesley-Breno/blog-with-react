@@ -21,7 +21,6 @@ export async function updatePostAction(
   prevState: UpdatePostActionState,
   formData: FormData,
 ): Promise<UpdatePostActionState> {
-  // TODO: verificar se o usuário tá logado
 
   if (!(formData instanceof FormData)) {
     return {

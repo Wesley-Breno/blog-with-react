@@ -11,7 +11,6 @@ type UploadImageActionResult = {
 export async function uploadImageAction(
   formData: FormData,
 ): Promise<UploadImageActionResult> {
-  // TODO: Verificar se o usuário está logado
 
   const makeResult = ({ url = '', error = '' }) => ({ url, error });
 
